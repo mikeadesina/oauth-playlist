@@ -63,9 +63,11 @@ jobs:
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/portalapp:latest
         - name: Deploy Docker image to cPanel
           run: |
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} << 'EOF'
+            - name: Deploy Docker image to cPanel
+            sshpass -p "${{ secrets.CPANEL_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} << 'EOF'
             docker pull portalapp:latest
             docker stop your-container-name || true
             docker rm your-container-name || true
             docker run -d --name your-container-name -p 80:80 portalapp:latest
             EOF
+
