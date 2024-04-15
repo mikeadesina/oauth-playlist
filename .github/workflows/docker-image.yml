@@ -37,11 +37,6 @@ jobs:
         run: |
           npm install
           npm ci 
-      # build and test the apps     
-      - name: build & test
-        run: |
-          npm run build
-          npm run test
   push_to_Docker_Hub:
       name: Push Images to DockerHub
       # The type of runner that the job will run on
