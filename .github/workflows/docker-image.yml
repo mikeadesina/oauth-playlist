@@ -62,12 +62,21 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/portalapp:latest
         - name: Deploy Docker image to cPanel
-          run: |
-            sshpass -p "${{ secrets.CPANEL_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.CPANEL_USERNAME }}@${{ secrets.CPANEL_HOST }} << 'EOF'
-            docker pull portalapp:latest
-            docker stop your-container-name || true
-            docker rm your-container-name || true
-            docker run -d --name your-container-name -p 80:80 portalapp:latest
-            EOF
+          uses: cpanel/cpanel-docker@v2
+          with:
+            image: ghcr.io/my-username/my-docker-image:${{ github.sha }}
+            username: ${{ secrets.CPANEL_USERNAME }}
+            password: ${{ secrets.CPANEL_PASSWORD }}
+            hostname: ${{ secrets.CPANEL_HOSTNAME }}
+            port: 2087
+            container_port: 80
+            dns: 8.8.8.8
+            domain: mydomain.com
+            path: /public_html
+            env_vars: |
+              NODE_ENV=production
+              PORT=80
+          
+          
 
 
