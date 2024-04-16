@@ -64,7 +64,7 @@ jobs:
         - name: Deploy Docker image to cPanel
           uses: cpanel/cpanel-docker@v2
           with:
-            image: ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/portalapp:latest:${{ github.sha }}
+            image: ghcr.io/mikeadesina/portalapp:latest:${{ github.sha }}
             username: ${{ secrets.CPANEL_USERNAME }}
             password: ${{ secrets.CPANEL_PASSWORD }}
             hostname: ${{ secrets.CPANEL_HOSTNAME }}
